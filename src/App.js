@@ -1,25 +1,40 @@
-import logo from './logo.svg';
+import Cars from "./components/cars/Сars";
+import {useEffect, useState} from "react";
+import {getCars} from "./service/sevice.car";
 import './App.css';
+import {
+    BrowserRouter as Router,
+    Route,
+    Link,
+} from "react-router-dom";
+import Creation from "./components/create-car/Creation";
+import Update from "./components/update/Update";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default function App() {
+    let [cars, setCars] = useState([]);
+
+    useEffect(() => {
+        getCars().then(value => setCars(value));
+    })
+    return (
+        <Router>
+            <div className="App">
+                <Link to={`/cars`}>Show cars</Link> <br/>
+                <Link to={`/create-cars`}>Create car</Link> <br/>
+                <Link to={`/update`}>Update car</Link> <br/>
+
+                <Route path={'/update'}> <Update/></Route>
+
+                <Route path={'/create-cars'}><Creation/></Route>
+
+                <Route path={'/cars'} render={() => {
+
+                    return cars.map(userItem => <Cars key={userItem.id} item={userItem}/>)
+                }}/>
+
+
+            </div>
+        </Router>
+    );
 }
 
-export default App;
