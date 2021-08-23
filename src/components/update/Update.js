@@ -18,6 +18,11 @@ export default function Update() {
 
     }
 
+    const onChangeSelect = (e) => {
+        const carForEdit = cars.find(car => car.id === +e.target.value)
+        setFormState(carForEdit);
+    }
+
     let save = (e) => {
         e.preventDefault();
         changeCars(formState);
@@ -27,7 +32,7 @@ export default function Update() {
     return (
         <Router>
         <div className="Update">
-            <select onChange={onFormInputChange}>
+            <select onChange={onChangeSelect}>
                 {
                    cars.map(CarsItem=> <option key={CarsItem.id} value={CarsItem.id} >{CarsItem.model}</option>)
                 }
